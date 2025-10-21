@@ -70,15 +70,34 @@ If your system does not support nvidia-docker2, noVNC will have to be used to fo
 **Installing the simulation:**
 
 1. Clone this repo 
-2. Bringup the novnc container and the sim container with docker-compose:
+
+2. Clone the ros2_ws Repository. Into a different directory.
+```bash
+git clone https://github.com/TP-TEAM05/ros2_ws.git
+``` 
+3. Build ros2 repo.
+```bash
+docker build -t my-ros2-car-controller .
+``` 
+4.Create a docker bridge network.
+```bash
+docker network create reco_default
+``` 
+5. Bringup the novnc container and the sim container with docker-compose:
 ```bash
 docker-compose up
 ``` 
-3. In a separate terminal, run the following, and you'll have the a bash session in the simulation container. `tmux` is available for convenience.
+6. In a separate terminal, run the following, and you'll have the a bash session in the simulation container. `tmux` is available for convenience.
 ```bash
 docker exec -it f1tenth_gym_ros-sim-1 /bin/bash
 ```
-4. In your browser, navigate to [http://localhost:8080/vnc.html](http://localhost:8080/vnc.html), you should see the noVNC logo with the connect button. Click the connect button to connect to the session.
+6.a. In a separate terminal, run
+```bash
+docker exec -it f1tenth_gym_ros-som-1 /bin/bash
+```  
+to access the ros2_ws terminal
+
+7. In your browser, navigate to [http://localhost:8080/vnc.html](http://localhost:8080/vnc.html), you should see the noVNC logo with the connect button. Click the connect button to connect to the session.
 
 # Launching the Simulation
 
@@ -89,6 +108,14 @@ $ source /opt/ros/foxy/setup.bash
 $ source install/local_setup.bash
 $ ros2 launch f1tenth_gym_ros gym_bridge_launch.py
 ```
+or ros2_ws container:
+```bash
+$ source /opt/ros/humble/setup.bash
+$ source install/local_setup.bash
+$ ros2 run car_to_backend xxxx
+```
+
+
 A rviz window should pop up showing the simulation either on your host system or in the browser window depending on the display forwarding you chose.
 
 You can then run another node by creating another bash session in `tmux`.
