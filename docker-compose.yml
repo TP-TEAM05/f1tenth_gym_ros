@@ -30,7 +30,7 @@ services:
     environment:
       - DISPLAY=novnc:0.0
     networks:
-      - x11
+      - reco_default
     stdin_open: true
     tty: true 
   novnc:  
@@ -39,8 +39,17 @@ services:
       - DISPLAY_WIDTH=1728
       - DISPLAY_HEIGHT=972
     ports:
-      - "8080:8080"
+      - "8000:8080"
     networks:
-      - x11
+      - reco_default
+  som:
+    image: my-ros2-car-controller:latest
+    networks:
+      - reco_default
+    stdin_open: true
+    tty: true 
+
 networks:
-  x11:
+  reco_default:
+    name: reco_default
+    external: true
